@@ -1,0 +1,30 @@
+# Geospatial API Virtual Service
+# This Virtual Service implements A/B testing by distributing 70% traffic to v1 and 30 t ov2
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: geospatial-api-virtualservice
+  namespace: dev
+spec:
+  hosts:
+    - geospatial.api.com
+  gateways:
+    - geospatial-api-gateway
+  http:
+    - match:
+        - uri:
+            prefix: /
+      route:
+        - destination:
+            host: geospatial-api-service.dev.svc.cluster.local
+            subset: v1
+            port:
+              number: 3000
+          weight: 70
+        - destination:
+            host: geospatial-api-service.dev.svc.cluster.local
+            subset: v2
+            port:
+              number: 3000
+          weight: 30
+      timeout: 5s

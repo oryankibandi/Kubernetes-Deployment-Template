@@ -1,0 +1,19 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: geospatial-api-gateway
+  namespace: dev
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+    - port:
+        number: 443
+        name: https
+        protocol: HTTPS
+      tls:
+        mode: SIMPLE
+        credentialName: geospatial-api-certs # SSL Certificate
+        httpsRedirect: true
+      hosts:
+        - "geospatial.api.com"

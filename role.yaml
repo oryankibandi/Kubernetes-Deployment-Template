@@ -1,0 +1,22 @@
+# Control access to pods. This role grants all accese to pods in the dev namespace
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: dev
+  name: pods-admin
+rules:
+- apiGroups: [""]
+  resources: ["pods"]
+  verbs: ["*"]
+
+# Control access to secrets. This Role restricts access to secrets in the dev namespace
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: dev
+  name: secrets-reader
+rules:
+- apiGroups: [""]
+  resources: ["secrets"]
+  verbs: ["get", "watch", "list"]
